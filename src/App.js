@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PhoneForm from './components/PhoneForm';
+import PhoneInfoList from './components/PhoneInfoList';
 import './App.css';
 
 class App extends Component {
@@ -42,6 +43,8 @@ class App extends Component {
           />
           {/*render 함수에서는 information 값을 문자열로 변환하여 보여주었습니다.*/}
           {JSON.stringify(information)}
+
+          <PhoneInfoList data={this.state.information}/>
         </div>
     );
   }
