@@ -14,12 +14,28 @@ class PhoneInfoList extends Component {
         onUpdate: () => console.warn('onUpdate not defined'),
     }
 
+    // App 이 리렌더링됨에 따라 PhoneInfoList 도 리렌더링이 되고 있죠.
+    // 물론, 실제로 변화가 일어나진 않으니 지금은 Virtual DOM 에만 리렌더링 합니다.
+    // 지금의 상황에는 별로 큰 문제가 되지 않는데, 리스트 내부의 아이템이 몇백개,
+    // 몇천개가 된다면 이렇게 Virtual DOM 에 렌더링 하는 자원은 아낄 수 있으면 아끼는게 좋습니다.
+    //
+    // 이러한 낭비되는 자원을 아끼기 위해선 우리가 이전에 배웠던 shouldComponentUpdate LifeCycle API 를 사용하면 됩니다.
+    //
+    // 자, PhoneInfoList 에서 shouldComponentUpdate 를 구현해보세요.
+    //
+    // 그냥 단순히 다음 받아올 data 가 현재 data 랑 다른 배열일 때 true 로 설정하게 하면 됩니다.
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.data !== this.props.data;
+    }
+
+
     // 이 컴포넌트에서는 data 라는 배열을 가져와서 map 을 통하여 JSX 로 변환을 해줍니다.
     // 이 과정에서, key 라는 값도 설정이 되었는데요, 여기서 key 는 리액트에서 배열을 렌더링을 할 때 꼭 필요한 값입니다.
     // 리액트는 배열을 렌더링 할 때 값을 통하여 업데이트 성능을 최적화하는데요, 한번 다음 예시를 살펴보세요.
 
     // 데이터를 컴포넌트로 렌더링하는 과정에서 PhoneInfo 에 onUpdate 를 그대로 전달해주었습니다.
     render() {
+        console.log('render PhoneInfoList');
         const { data, onRemove, onUpdate  } = this.props;
 
         const list = data.map(

@@ -21,9 +21,14 @@ class App extends Component {
         name: '홍길동',
         phone: '010-0000-0001'
       }
-    ]
+    ],
+    keyword: ''
   }
-
+    handleChange = (e) => {
+        this.setState({
+            keyword: e.target.value,
+        });
+    }
   // 이제 state 안에 있는 값들을 부모 컴포넌트에게 전달해줄 차례입니다.
   // 이러한 상황에는, 부모 컴포넌트에서 메소드를 만들고,
   // 이 메소드를 자식에게 전달한 다음에 자식 내부에서 호출하는 방식을 사용합니다.
@@ -61,7 +66,11 @@ class App extends Component {
   }
 
   render() {
-    const { information } = this.state;
+    const { information, keyword  } = this.state;
+      const filteredList = information.filter(
+          info => info.name.indexOf(keyword) !== -1
+      );
+
     return (
         <div>
           <PhoneForm
@@ -69,12 +78,21 @@ class App extends Component {
           />
           {/*render 함수에서는 information 값을 문자열로 변환하여 보여주었습니다.*/}
           {JSON.stringify(information)}
+
+            <p>
+                <input
+                    placeholder="검색 할 이름을 입력하세요.."
+                    onChange={this.handleChange}
+                    value={keyword}
+                />
+            </p>
+            <hr />
           {/*
           id 를 파라미터로 받아오는 handleRemove 라는 함수를 만드시고, PhoneInfoList 로 전달하세요.
           PhoneInfoList 에서는 props 로 전달받은 onRemove 를 그대로 전달해주겠습니다.
           */}
           <PhoneInfoList
-              data={this.state.information}
+              data={filteredList}
               onRemove={this.handleRemove}
               onUpdate={this.handleUpdate}
           />
