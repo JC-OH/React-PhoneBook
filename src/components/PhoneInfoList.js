@@ -11,20 +11,23 @@ class PhoneInfoList extends Component {
     static defaultProps = {
         data: [],
         onRemove: () => console.warn('onRemove not defined'),
+        onUpdate: () => console.warn('onUpdate not defined'),
     }
 
     // 이 컴포넌트에서는 data 라는 배열을 가져와서 map 을 통하여 JSX 로 변환을 해줍니다.
     // 이 과정에서, key 라는 값도 설정이 되었는데요, 여기서 key 는 리액트에서 배열을 렌더링을 할 때 꼭 필요한 값입니다.
     // 리액트는 배열을 렌더링 할 때 값을 통하여 업데이트 성능을 최적화하는데요, 한번 다음 예시를 살펴보세요.
 
+    // 데이터를 컴포넌트로 렌더링하는 과정에서 PhoneInfo 에 onUpdate 를 그대로 전달해주었습니다.
     render() {
-        const { data, onRemove  } = this.props;
+        const { data, onRemove, onUpdate  } = this.props;
 
         const list = data.map(
             info => (<PhoneInfo
                         key={info.id}
                         info={info}
                         onRemove={onRemove}
+                        onUpdate={onUpdate}
             />)
         );
 
